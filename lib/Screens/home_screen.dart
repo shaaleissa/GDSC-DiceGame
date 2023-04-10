@@ -1,11 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
-
 import 'package:dice_game/Saved/max_score.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/framework.dart';
-import 'package:flutter/src/widgets/placeholder.dart';
-import 'package:flutter/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -27,7 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int leftDice = 1;
   int rightDice = 1;
   int total = 0;
-  int max = 0;
+  int maxScore = 0;
 
   void switchDice() {
     setState(() {
@@ -70,7 +66,7 @@ class _HomeScreenState extends State<HomeScreen> {
     HighScore(score: score).save();
 
     setState(() {
-      max++;
+      maxScore = max(score, maxScore);
     });
   }
 
@@ -112,13 +108,19 @@ class _HomeScreenState extends State<HomeScreen> {
                   Expanded(
                     child: TextButton(
                       onPressed: equal,
-                      child: const Text('Equal' , style: TextStyle(fontSize: 20, color: Colors.white),),
+                      child: const Text(
+                        'Equal',
+                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      ),
                     ),
                   ),
                   Expanded(
                     child: TextButton(
                       onPressed: notEqual,
-                      child: const Text('Not Equal', style: TextStyle(fontSize: 20, color: Colors.white),),
+                      child: const Text(
+                        'Not Equal',
+                        style: TextStyle(fontSize: 20, color: Colors.white),
+                      ),
                     ),
                   ),
                 ],
@@ -127,7 +129,7 @@ class _HomeScreenState extends State<HomeScreen> {
               Text('Score: $total',
                   style: const TextStyle(fontSize: 20, color: Colors.white)),
               const SizedBox(height: 20),
-              Text('Max Score: $max',
+              Text('Max Score: $maxScore',
                   style: const TextStyle(fontSize: 20, color: Colors.white)),
             ],
           ),
